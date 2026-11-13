@@ -6,6 +6,7 @@ Shared tooling and conventions for LLM-maintained wikis, usable from Claude Code
 |---|---|
 | [`.agents/skills/wiki-sources/`](.agents/skills/wiki-sources/SKILL.md) | Skill + script that mirrors git repositories into a wiki's `raw/` **incrementally**: `check` uses `git ls-remote` only, `sync` downloads only the changed files through a throwaway partial clone (`--depth=1 --filter=blob:none`, one batched blob fetch). |
 | [`docs/composing-wikis.md`](docs/composing-wikis.md) | How to keep each wiki in its own repo and use several from one project on demand. |
+| [`docs/roadmap.md`](docs/roadmap.md) | Ideas not yet implemented: routing tasks to models and effort levels per provider, recording which model did each operation, and the test suite needed to decide. |
 
 The wiki format itself (pages, `SCHEMA.md`, ingest/query/lint) comes from the `llm-wiki` skill; this repo adds to it, it does not replace it.
 
