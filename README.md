@@ -44,7 +44,7 @@ python3 ~/src/llm-wiki/.agents/skills/wiki-sources/scripts/wiki_sources.py add l
 ```
 
 ```bash
-mkdir -p .claude/skills && ln -s ../.agents/skills/wiki-sources .claude/skills/wiki-sources
+mkdir -p .claude/skills && ln -s ../../.agents/skills/wiki-sources .claude/skills/wiki-sources
 ```
 
 OpenCode reads `.agents/skills/` directly; the link is for Claude Code (OpenCode reads it too, so you never need two copies). Later updates are incremental like any other source:
