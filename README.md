@@ -4,7 +4,7 @@ Shared tooling and conventions for LLM-maintained wikis, usable from Claude Code
 
 | Piece | What it is |
 |---|---|
-| [`.agents/skills/wiki-sources/`](.agents/skills/wiki-sources/SKILL.md) | Skill + script that mirrors git repositories into a wiki's `raw/` **incrementally**: `check` uses `git ls-remote` only, `sync` downloads only the changed files through a throwaway partial clone (`--depth=1 --filter=blob:none`, one batched blob fetch). |
+| [`.claude/skills/wiki-sources/`](.claude/skills/wiki-sources/SKILL.md) | Skill + script that mirrors git repositories into a wiki's `raw/` **incrementally**: `check` uses `git ls-remote` only, `sync` downloads only the changed files through a throwaway partial clone (`--depth=1 --filter=blob:none`, one batched blob fetch). |
 | [`docs/composing-wikis.md`](docs/composing-wikis.md) | How to keep each wiki in its own repo and use several from one project on demand. |
 | [`docs/roadmap.md`](docs/roadmap.md) | Ideas not yet implemented: routing tasks to models and effort levels per provider, recording which model did each operation, and the test suite needed to decide. |
 
@@ -24,6 +24,12 @@ OpenCode column: OpenCode's own docs (`services/site/src/docs/content/skills.mdx
 
 ## Install
 
+The skill lives in `.claude/skills/`, which both Claude Code and OpenCode read (see the table above). Nothing has to be copied or linked into the projects that use it.
+
+### Cloud sessions (claude.ai/code)
+
+Attach `hiebra/llm-wiki` to the session, or add it to the environment's repositories so every session there starts with it. Claude Code loads the skill from the attached repo.
+
 ### Once per machine (both agents)
 
 ```bash
@@ -31,30 +37,24 @@ git clone --depth 1 https://github.com/hiebra/llm-wiki.git ~/src/llm-wiki
 ```
 
 ```bash
-mkdir -p ~/.claude/skills && ln -s ~/src/llm-wiki/.agents/skills/wiki-sources ~/.claude/skills/wiki-sources
+mkdir -p ~/.claude/skills && ln -s ~/src/llm-wiki/.claude/skills/wiki-sources ~/.claude/skills/wiki-sources
 ```
 
 Both Claude Code and OpenCode now see the skill in every project. Update with `git -C ~/src/llm-wiki pull`.
 
-### Per project, versioned with the project (recommended for shared repos)
+### Per project, pinned with the project (optional)
 
-From the project root, let the tool install itself as one more tracked source. `--raw-dir .` mirrors the upstream path at the same place in your project:
-
-```bash
-python3 ~/src/llm-wiki/.agents/skills/wiki-sources/scripts/wiki_sources.py add llm-wiki-tools https://github.com/hiebra/llm-wiki.git --raw-dir . --branch main --path .agents/skills/wiki-sources
-```
+Only if a project must carry its own pinned copy. From the project root, let the tool install itself as one more tracked source; `--raw-dir .` mirrors the upstream path at the same place in your project:
 
 ```bash
-mkdir -p .claude/skills && ln -s ../../.agents/skills/wiki-sources .claude/skills/wiki-sources
+python3 ~/src/llm-wiki/.claude/skills/wiki-sources/scripts/wiki_sources.py add llm-wiki-tools https://github.com/hiebra/llm-wiki.git --raw-dir . --branch main --path .claude/skills/wiki-sources
 ```
 
-OpenCode reads `.agents/skills/` directly; the link is for Claude Code (OpenCode reads it too, so you never need two copies). Later updates are incremental like any other source:
+Later updates are incremental like any other source:
 
 ```bash
-python3 .agents/skills/wiki-sources/scripts/wiki_sources.py sync llm-wiki-tools
+python3 .claude/skills/wiki-sources/scripts/wiki_sources.py sync llm-wiki-tools
 ```
-
-On Windows, committed links need `git config --global core.symlinks true` and Developer Mode; otherwise copy the folder.
 
 ## Requirements
 

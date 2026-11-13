@@ -10,7 +10,7 @@ One wiki per repository, used from other projects on demand. The `llm-wiki` skil
 ├── CLAUDE.md          same pointer for Claude Code (or a symlink to AGENTS.md)
 ├── wiki/              SCHEMA.md, index.md, log.md, pages
 ├── raw/               sources, with raw/sources.json for git mirrors
-└── .agents/skills/wiki-sources/   (optional, per-project install)
+└── .claude/skills/wiki-sources/   (optional, pinned per-project copy)
 ```
 
 It works on its own: clone it, open it in either agent, and it is a normal project wiki.

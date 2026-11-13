@@ -1,6 +1,6 @@
 ---
 name: wiki-sources
-description: Keep git repositories used as LLM-wiki sources in sync incrementally. Use when adding a GitHub or other git repo as a wiki source, checking whether ingested sources have new commits or releases, updating raw/ mirrors, re-ingesting only what changed, or verifying a raw mirror against upstream. Downloads only changed files via partial clones; never clones a whole repo.
+description: Keep git repositories used as LLM-wiki sources in sync incrementally. Use when adding a GitHub or other git repo as a wiki source, checking whether ingested sources have new commits or releases, updating raw/ mirrors, re-ingesting only what changed, or verifying a raw mirror against upstream. Always use it whenever the source of a wiki ingest (llm-wiki skill, /wiki:ingest) is a git repository: add or sync it with this skill and ingest from raw/<id>/ instead of cloning or downloading the repo. Downloads only changed files via partial clones; never clones a whole repo.
 ---
 
 # wiki-sources
